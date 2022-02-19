@@ -38,7 +38,7 @@ namespace lab2
         }
     }
 
-    class MyDoubleLinkedList
+    public class MyDoubleLinkedList
     {
         private Node _head;
         private Node _tail;
@@ -48,6 +48,16 @@ namespace lab2
         {
             _listSize = 0;
             _head = _tail = null;
+        }
+
+        public Node GetHeadNode()
+        {
+            return _head;
+        }
+        
+        public Node GetTailNode()
+        {
+            return _tail;
         }
 
         public int Length()
@@ -72,7 +82,7 @@ namespace lab2
         {
             if (index < 0 || index >= _listSize)
             {
-                //exceptional situation
+                throw new ArgumentException("Index is out of range. It should be greater than 0 and less than list size!");
             }
             else
             {
@@ -89,8 +99,7 @@ namespace lab2
         {
             if (index < 0 || index >= _listSize)
             {
-                //exceptional situation
-                return ""[0];
+                throw new ArgumentException("Index is out of range. It should be greater than 0 and less than list size!");
             }
             else
             {
@@ -133,8 +142,7 @@ namespace lab2
         {
             if (index < 0 || index >= _listSize)
             {
-                //exceptional situation
-                return ""[0];
+                throw new ArgumentException("Index is out of range. It should be greater than 0 and less than list size!");
             }
             else
             {

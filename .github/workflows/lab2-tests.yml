@@ -16,7 +16,5 @@ jobs:
         uses: actions/setup-dotnet@v1.7.2
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
-      - name: Build
-        run: dotnet build --configuration Release --no-restore
       - name: Common Tests for Linked List from Lab2
         run: dotnet test lab2XUnitTests/lab2XUnitTests.csproj

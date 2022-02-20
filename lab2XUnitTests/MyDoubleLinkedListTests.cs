@@ -54,7 +54,7 @@ namespace lab2XUnitTests
             Assert.Null(nullTailPrevPointer);
         }
 
-        /*[Fact]
+        [Fact]
            public void FalledTest()
            {
                //ARRANGE
@@ -69,7 +69,7 @@ namespace lab2XUnitTests
 
                //ASSERT    
                Assert.Equal(expectedSize, initializeResult);
-           }*/
+           }
 
         [Fact]
         public void TestListInsert()

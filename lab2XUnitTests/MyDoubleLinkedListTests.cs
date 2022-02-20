@@ -55,23 +55,6 @@ namespace lab2XUnitTests
         }
 
         [Fact]
-           public void FalledTest()
-           {
-               //ARRANGE
-               int expectedSize = 1;
-               char sharp = char.Parse("#");
-
-               //ACT
-               var list = new MyDoubleLinkedList();
-               list.Append(sharp);
-               list.Append(sharp);
-               var initializeResult = list.Length();
-
-               //ASSERT    
-               Assert.Equal(expectedSize, initializeResult);
-           }
-
-        [Fact]
         public void TestListInsert()
         {
             //ARRANGE

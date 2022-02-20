@@ -109,10 +109,26 @@ namespace lab2
                 {
                     tempNode = tempNode.Next;
                 }
-                if (tempNode.Index != _head.Index) tempNode.Prev.Next = tempNode.Next;
-                else _head = tempNode.Next;//check on head
-                if (tempNode.Index != _tail.Index) tempNode.Next.Prev = tempNode.Prev;
-                else _tail = tempNode.Prev;//check on tail
+                if (_head.Index == _tail.Index)
+                {
+                    _head = null;
+                    _tail = null;
+                }
+                else if (tempNode.Index == _head.Index)//check on head
+                {
+                    _head = tempNode.Next;
+                    _head.Prev = null;
+                }
+                else if (tempNode.Index == _tail.Index)//check on tail
+                {
+                    _tail = tempNode.Prev;
+                    _tail.Next = null;
+                }
+                else
+                {
+                    tempNode.Prev.Next = tempNode.Next;
+                    tempNode.Next.Prev = tempNode.Prev;
+                }
                 _listSize--;
                 ReorderIndex();
                 return tempNode.Character;
@@ -123,14 +139,30 @@ namespace lab2
         {
             Node tempNode = _head;
 
-            while (tempNode.Index != _listSize)
+            while (tempNode != null)
             {
                 if (tempNode.Character == character)
                 {
-                    if (tempNode.Index != _head.Index) tempNode.Prev.Next = tempNode.Next;
-                    else _head = tempNode.Next;//check on head
-                    if (tempNode.Index != _tail.Index) tempNode.Next.Prev = tempNode.Prev;
-                    else _tail = tempNode.Prev;//check on tail
+                    if (_head.Index == _tail.Index)
+                    {
+                        _head = null;
+                        _tail = null;
+                    }
+                    else if (tempNode.Index == _head.Index)//check on head
+                    {
+                        _head = tempNode.Next;
+                        _head.Prev = null;
+                    }
+                    else if (tempNode.Index == _tail.Index)//check on tail
+                    {
+                        _tail = tempNode.Prev;
+                        _tail.Next = null;
+                    }
+                    else
+                    {
+                        tempNode.Prev.Next = tempNode.Next;
+                        tempNode.Next.Prev = tempNode.Prev;
+                    }
                     _listSize--;
                     ReorderIndex();
                 }
@@ -161,7 +193,7 @@ namespace lab2
             MyDoubleLinkedList duplicate = new MyDoubleLinkedList();
             Node tempNode = _head;
 
-            while (tempNode.Index != _listSize)
+            while (tempNode != null)
             {
                 duplicate.Append(tempNode.Character);
                 tempNode = tempNode.Next;
@@ -190,7 +222,7 @@ namespace lab2
         {
             Node tempNode = _head;
             int index = -1;
-            while (tempNode.Index != _listSize)
+            while (tempNode != null)
             {
                 if (tempNode.Character == character)
                 {
@@ -227,6 +259,8 @@ namespace lab2
                 tempNode = tempNode.Prev;
             }
             _listSize = 0;
+            _head = null;
+            _tail = null;
         }
 
         public void Extend(MyDoubleLinkedList list)
@@ -242,7 +276,7 @@ namespace lab2
         {
             Node tempNode = _head;
             int tempCounter = 0;
-            while (tempNode.Index != _listSize)
+            while(tempCounter != _listSize)
             {
                 tempNode.Index = tempCounter;
                 tempNode = tempNode.Next;

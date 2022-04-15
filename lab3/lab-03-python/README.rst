@@ -24,7 +24,7 @@ dependencies:
 .. code-block:: console
 
    solo@falcon ~/project $ . ./.venv/bin/acticate
-   (.venv) solo@falcon ~/project $ pip install -r requirements/backend.in
+   (.venv) solo@falcon ~/project $ py -m pip install -r requirements/backend-versions.txt
    Collecting fastapi
    ...
    Installing collected packages: sniffio, idna ...

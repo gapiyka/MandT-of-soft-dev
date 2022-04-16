@@ -14,13 +14,13 @@ Build the project with the following command:
 
 .. code-block:: console
 
-   solo@falcon ~/project $ go build -o build/fizzbuzz
+   solo@falcon ~/project $ go build -o build/fizzbuzz.exe
 
 When you have the project built, you can run it by invoking the binary:
 
 .. code-block:: console
 
-   solo@falcon ~/project $ ./build/fizzbuzz
+   solo@falcon ~/project $ build/fizzbuzz.exe
    Usage:
      fizzbuzz [command]
 
@@ -33,7 +33,7 @@ When you have the project built, you can run it by invoking the binary:
    Flags:
      -h, --help   help for fizzbuzz
 
-   solo@falcon ~/project $ ./build/fizzbuzz serve
+   solo@falcon ~/project $ build/fizzbuzz.exe serve
    Listening on http://0.0.0.0:8080
 
 When serving a project, press Ctrl+C to sent SIGTERM signal to the running

@@ -23,8 +23,8 @@ namespace lab4
             Console.WriteLine("[-all] - show all tasks.");
             Console.WriteLine("[-act] - show active tasks.");
             Console.WriteLine("[-sot] - show overdue tasks.");
-            Console.WriteLine("[-add caption description yyyy-mm-dd-hh-mm] - add task with `caption` as first arg, `description`, `deadline` and all args separated by space.");
-            Console.WriteLine("[-edit taskNumber caption description yyyy-mm-dd-hh-mm] - add task with `taskNumber` as first arg, `caption`, `description`, `deadline` and all args separated by space.");
+            Console.WriteLine("[-add yyyy-mm-dd-hh-mm caption description] - add task with `deadline`, `caption` as first arg, `description` and all args separated by space.");
+            Console.WriteLine("[-edit taskNumber yyyy-mm-dd-hh-mm caption description] - add task with `taskNumber` as first arg, `deadline`, `caption`, `description` and all args separated by space.");
             Console.WriteLine("[-remove taskNumber] - remove task by `taskNumber`.");
             Console.WriteLine("[-done taskNumber] - mark task by `taskNumber` as done.");
         }

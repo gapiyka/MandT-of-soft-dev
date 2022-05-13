@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace lab4
 {
     class TaskManager
     {
+        static List<Task> tasksList = new List<Task>();
         public static void ManageCommand(string[] args)
         {
             switch (args[0])
@@ -47,45 +49,139 @@ namespace lab4
 
         static void ShowAllTasks()
         {
-            int activeTasks = 3;
-            int doneTasks = 9;
-            int overdueTasks = 3;
+            int activeTasks = 0;
+            int doneTasks = 0;
+            int overdueTasks = 0;
+            Console.WriteLine("List of all tasks:\n");
+            tasksList.ForEach(task =>
+            {
+                if (DateTime.Compare(task.deadline, DateTime.Now) < 0) task.taskStatus = TaskStatus.Overdue;
+                switch (task.taskStatus)
+                {
+                    case TaskStatus.Active:
+                        activeTasks++;
+                        break;
+                    case TaskStatus.Overdue:
+                        overdueTasks++;
+                        break;
+                    case TaskStatus.Done:
+                        doneTasks++;
+                        break;
+                }
+                Console.WriteLine("Task #" + task.number + " [" + task.caption + "]: " + task.description);
+                Console.WriteLine("Deadline: " + task.deadline + "; Status: " + task.taskStatus);
+                Console.WriteLine("----");
+            });
             Console.WriteLine("Active: " + activeTasks + " || " + "Done: " + doneTasks + " || " + "Overdue: " + overdueTasks);
-            Console.WriteLine("List of all active|done tasks.");
         }
 
         static void ShowActiveTasks()
         {
-            Console.WriteLine("List of all active tasks, sorted by deadline.");
+            Console.WriteLine("List of all active tasks, sorted by deadline:\n");
+            tasksList.ForEach(task =>
+            {
+                if (DateTime.Compare(task.deadline, DateTime.Now) < 0) task.taskStatus = TaskStatus.Overdue;
+
+                if (task.taskStatus == TaskStatus.Active)
+                {
+                    Console.WriteLine("Task #" + task.number + " [" + task.caption + "]: " + task.description);
+                    Console.WriteLine("Deadline: " + task.deadline + "; Status: " + task.taskStatus);
+                    Console.WriteLine("----");
+                }
+            });
         }
 
         static void ShowOverdueTasks()
         {
-            Console.WriteLine("List of all overdue tasks.");
+            Console.WriteLine("List of all overdue tasks:\n");
+            tasksList.ForEach(task =>
+            {
+                if (task.taskStatus == TaskStatus.Overdue || DateTime.Compare(task.deadline, DateTime.Now) < 0)
+                {
+                    task.taskStatus = TaskStatus.Overdue;
+                    Console.WriteLine("Task #" + task.number + " [" + task.caption + "]: " + task.description);
+                    Console.WriteLine("Deadline: " + task.deadline + "; Status: " + task.taskStatus);
+                    Console.WriteLine("----");
+                }
+            });
         }
 
         static void MarkTaskAsDone(string taskNumber)
         {
-            Console.WriteLine("Task #" + taskNumber + " - D O N E.");
+            bool endProccess = false;
+            tasksList.ForEach(task => 
+            {
+               if(task.number == UInt64.Parse(taskNumber))
+                {
+                    task.taskStatus = TaskStatus.Done;
+                    Console.WriteLine("Task #" + taskNumber + " - D O N E.");
+                    endProccess = true;
+                    return;
+                }
+            });
+            if(!endProccess) Console.WriteLine("Task #" + taskNumber + " - didn`t find.");
         }
 
         static void AddTask(string deadline, string caption, string description)
         {
-            ulong taskNumber = 0;
+            ulong taskNumber = (ulong)tasksList.Count + 1;
+            tasksList.Add(new Task(taskNumber, caption, description, deadline));
             Console.WriteLine("Added task #" + taskNumber + " [" + caption + "]: " + description);
             Console.WriteLine("Deadline: " + deadline + "; Status: active");
         }
 
         static void EditTask(string taskNumber, string deadline, string caption, string description)
         {
-            string taskStatus = "active";
-            Console.WriteLine("Changed task #" + taskNumber + " [" + caption + "]: " + description);
-            Console.WriteLine("Deadline: " + deadline + "; Status: " + taskStatus);
+            bool endProccess = false;
+            tasksList.ForEach(task =>
+            {
+                if (task.number == UInt64.Parse(taskNumber))
+                {
+                    task.caption = caption;
+                    task.description = description;
+                    DateTime newDate = task.StringToDate(deadline);
+                    task.deadline = newDate;
+                    if (DateTime.Compare(newDate, DateTime.Now)>0)
+                    {
+                        task.taskStatus = TaskStatus.Active;
+                    }
+                    task.deadline = newDate;
+
+                    Console.WriteLine("Changed task #" + taskNumber + " [" + caption + "]: " + description);
+                    Console.WriteLine("Deadline: " + deadline + "; Status: " + task.taskStatus);
+                    endProccess = true;
+                    return;
+                }
+            });
+            if (!endProccess) Console.WriteLine("Task #" + taskNumber + " - didn`t find.");
         }
 
         static void DeleteTask(string taskNumber)
         {
-            Console.WriteLine("Task #" + taskNumber + " - D E L E T E D.");
+            bool endProccess = false;
+            Task findTask = null;
+            tasksList.ForEach(task =>
+            {
+                if (task.number == UInt64.Parse(taskNumber))
+                {
+                    findTask = task;
+                    endProccess = true;
+                    return;
+                }
+            });
+            if (!endProccess) Console.WriteLine("Task #" + taskNumber + " - didn`t find.");
+            else
+            {
+                tasksList.Remove(findTask);
+                Console.WriteLine("Task #" + taskNumber + " - D E L E T E D.");
+                ulong counter = 0;
+                tasksList.ForEach(task =>
+                {
+                    counter++;
+                    if (counter != task.number) task.number--;
+                });
+            }
+
         }
     }
 }

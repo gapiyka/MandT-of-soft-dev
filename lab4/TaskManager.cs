@@ -55,7 +55,7 @@ namespace lab4
             Console.WriteLine("List of all tasks:\n");
             tasksList.ForEach(task =>
             {
-                if (DateTime.Compare(task.deadline, DateTime.Now) < 0) task.taskStatus = TaskStatus.Overdue;
+                CheckAtOverdue(task);
                 switch (task.taskStatus)
                 {
                     case TaskStatus.Active:
@@ -68,9 +68,7 @@ namespace lab4
                         doneTasks++;
                         break;
                 }
-                Console.WriteLine("Task #" + task.number + " [" + task.caption + "]: " + task.description);
-                Console.WriteLine("Deadline: " + task.deadline + "; Status: " + task.taskStatus);
-                Console.WriteLine("----");
+                PrintTaskInfo(task);
             });
             Console.WriteLine("Active: " + activeTasks + " || " + "Done: " + doneTasks + " || " + "Overdue: " + overdueTasks);
         }
@@ -78,17 +76,21 @@ namespace lab4
         static void ShowActiveTasks()
         {
             Console.WriteLine("List of all active tasks, sorted by deadline:\n");
+            List<Task> activeList = new List<Task>();
             tasksList.ForEach(task =>
             {
-                if (DateTime.Compare(task.deadline, DateTime.Now) < 0) task.taskStatus = TaskStatus.Overdue;
+                CheckAtOverdue(task);
 
                 if (task.taskStatus == TaskStatus.Active)
                 {
-                    Console.WriteLine("Task #" + task.number + " [" + task.caption + "]: " + task.description);
-                    Console.WriteLine("Deadline: " + task.deadline + "; Status: " + task.taskStatus);
-                    Console.WriteLine("----");
+                    activeList.Add(task);
                 }
             });
+            BubbleSort(ref activeList, (int)activeList.Count);
+            foreach(Task task in activeList)
+            {
+                PrintTaskInfo(task);
+            }
         }
 
         static void ShowOverdueTasks()
@@ -96,13 +98,8 @@ namespace lab4
             Console.WriteLine("List of all overdue tasks:\n");
             tasksList.ForEach(task =>
             {
-                if (task.taskStatus == TaskStatus.Overdue || DateTime.Compare(task.deadline, DateTime.Now) < 0)
-                {
-                    task.taskStatus = TaskStatus.Overdue;
-                    Console.WriteLine("Task #" + task.number + " [" + task.caption + "]: " + task.description);
-                    Console.WriteLine("Deadline: " + task.deadline + "; Status: " + task.taskStatus);
-                    Console.WriteLine("----");
-                }
+                CheckAtOverdue(task);
+                if (task.taskStatus == TaskStatus.Overdue) PrintTaskInfo(task);
             });
         }
 
@@ -125,9 +122,10 @@ namespace lab4
         static void AddTask(string deadline, string caption, string description)
         {
             ulong taskNumber = (ulong)tasksList.Count + 1;
-            tasksList.Add(new Task(taskNumber, caption, description, deadline));
-            Console.WriteLine("Added task #" + taskNumber + " [" + caption + "]: " + description);
-            Console.WriteLine("Deadline: " + deadline + "; Status: active");
+            Task newTask = new Task(taskNumber, caption, description, deadline);
+            tasksList.Add(newTask);
+            Console.WriteLine("Added : ");
+            PrintTaskInfo(newTask);
         }
 
         static void EditTask(string taskNumber, string deadline, string caption, string description)
@@ -146,9 +144,8 @@ namespace lab4
                         task.taskStatus = TaskStatus.Active;
                     }
                     task.deadline = newDate;
-
-                    Console.WriteLine("Changed task #" + taskNumber + " [" + caption + "]: " + description);
-                    Console.WriteLine("Deadline: " + deadline + "; Status: " + task.taskStatus);
+                    Console.WriteLine("Changed : ");
+                    PrintTaskInfo(task);
                     endProccess = true;
                     return;
                 }
@@ -181,7 +178,34 @@ namespace lab4
                     if (counter != task.number) task.number--;
                 });
             }
+        }
 
+        static void CheckAtOverdue(Task task)
+        {
+            if (DateTime.Compare(task.deadline, DateTime.Now) < 0) task.taskStatus = TaskStatus.Overdue;
+        }
+
+        static void PrintTaskInfo(Task task)
+        {
+            Console.WriteLine("Task #" + task.number + " [" + task.caption + "]: " + task.description);
+            Console.WriteLine("Deadline: " + task.deadline + "; Status: " + task.taskStatus);
+            Console.WriteLine("----");
+        }
+
+        static void BubbleSort(ref List<Task> list, int size)
+        {
+            for (int step = 0; step < size; step++)
+            {
+                for (int i = 0; i < size - step - 1; i++)
+                {
+                    if (DateTime.Compare(list[i].deadline, list[i+1].deadline) > 0)
+                    {
+                        Task temp = list[i];
+                        list[i] = list[i + 1];
+                        list[i + 1] = temp;
+                    }
+                }
+            }
         }
     }
 }

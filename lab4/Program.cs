@@ -6,7 +6,26 @@ namespace lab4
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            if(args.Length == 0)
+            {
+                InteractiveMode();
+            }
+            else
+            {
+                NonInteractiveMode(args);
+            }
+        }
+
+        static void InteractiveMode()
+        {
+            Console.WriteLine("Interactive Mode!");
+            Handler.HelpText();
+            Handler.HandleCommands();
+        }
+
+        static void NonInteractiveMode(string[] args)
+        {
+            Console.WriteLine("Non Interactive Mode!");
         }
     }
 }

@@ -6,14 +6,9 @@ namespace lab4
     {
         static void Main(string[] args)
         {
-            if(args.Length == 0)
-            {
-                InteractiveMode();
-            }
-            else
-            {
-                NonInteractiveMode(args);
-            }
+            TaskManager.FillList();
+            if (args.Length == 0) InteractiveMode();
+            else NonInteractiveMode(args);
         }
 
         static void InteractiveMode()
@@ -26,6 +21,7 @@ namespace lab4
         static void NonInteractiveMode(string[] args)
         {
             Console.WriteLine("Non Interactive Mode!");
+            TaskManager.ManageCommand(args);
         }
     }
 }

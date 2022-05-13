@@ -1,12 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace lab4
 {
     class TaskManager
     {
-        static List<Task> tasksList = new List<Task>();
+        const string fileName = "TaskList.json";
+        static List<Task> tasksList;
+
+        public static void FillList()
+        {
+            tasksList = new List<Task>();
+            if (File.Exists(fileName))
+            {
+                string[] lines = File.ReadAllLines(fileName);
+                foreach (string line in lines)
+                {
+                    tasksList.Add(JSONS.JsonToTask(line));
+                }
+            }
+            else 
+            {
+                var file = File.CreateText(fileName);
+                file.Close();
+            }
+
+        }
+
         public static void ManageCommand(string[] args)
         {
             switch (args[0])
@@ -45,6 +67,17 @@ namespace lab4
                     Console.WriteLine("Wrong command.");
                     break;
             }
+            SaveList();
+        }
+
+        static void SaveList()
+        {
+            string json = "";
+            foreach (Task task in tasksList)
+            {
+                json += JSONS.TaskToJson(task) + "\n";
+            }
+            File.WriteAllText(fileName, json);
         }
 
         static void ShowAllTasks()

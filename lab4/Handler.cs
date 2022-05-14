@@ -11,7 +11,7 @@ namespace lab4
             while (!exitFlag)
             {
                 input = Console.ReadLine();
-                if (input.ToLower() == "x") exitFlag = true;
+                if (input.ToLower() == "x") { exitFlag = true; break; }
                 TaskManager.ManageCommand(input.Split(" "));
             }
             Console.WriteLine("Bye, bye!");

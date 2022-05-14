@@ -3,13 +3,13 @@ using System.Text.Json;
 
 namespace lab4
 {
-    enum TaskStatus
+    public enum TaskStatus
     {
         Active,
         Done,
         Overdue
     }
-    class Task
+    public class Task
     {
         public ulong number { get; set; }
         public string caption { get; set; }

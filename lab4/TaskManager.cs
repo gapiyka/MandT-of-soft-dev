@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace lab4
 {
-    class TaskManager
+    public class TaskManager
     {
         const string fileName = "TaskList.json";
         static List<Task> tasksList;

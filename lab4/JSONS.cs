@@ -3,7 +3,7 @@ using System.Text.Json;
 
 namespace lab4
 {
-    class JSONS
+    public class JSONS
     {
         public static string TaskToJson(Task task)
         {
